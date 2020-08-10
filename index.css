@@ -1,0 +1,50 @@
+body{
+    background: #FF8427;
+    margin: 0px auto;
+    padding: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header{
+    background-color: #4D8B31;
+    padding: 20px;
+    margin: 0px auto;
+    text-align: center;
+    color: #FFFFFF;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.logo{
+    font-weight: 700;
+}
+
+#productoDisplay{
+    background: #FFC800;
+    display: flex;
+    margin: 0px auto;
+    margin-top: 40px;
+    width: 60%;
+}
+
+#imgDisplay{
+    flex-grow: 1;
+}
+
+#imgDisplay img{
+    width: 100%;
+}
+
+#infoDisplay{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#infoDisplay label{
+    align-self: flex-start;
+    margin-left: 20px;
+}

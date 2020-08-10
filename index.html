@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de compras</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">CARRITO DE COMPRAS</div>
+        <div>
+            <label for="codigo">Código del producto: </label>
+        <input type="text" name="txtcodigo" required type="text" id="txtcodigo" placeholder="Escribe el código">
+        <button onclick="_agregarProducto()">Buscar</button>
+        </div>
+
+    </header>
+
+        <div id="productoDisplay">
+            <div id="imgDisplay">
+                <img src="https://via.placeholder.com/150x150?text=Imagen+de+prueba" alt="">
+            </div>
+
+            <div id="infoDisplay">
+                <label>Producto: </label>
+                <h1>Cuaderno</h1>
+                <p>$10</p>
+                <p>Papelería</p>
+                <button>Agregar a carrito</button>
+            </div>
+
+        </div>
+        <br>
+        <br>
+    <div class="row">
+        <label>Precio: </label>
+        <input type="text" name="txtprecio" id="txtprecio" class="form-control">
+        <br>
+        <label>Cantidad: </label>
+        <input type="text" name="txtcantidad" id="txtcantidad" class="form-control" placeholder="Cantidad de producto"
+            required>
+        <br>
+        <button onclick="_calcularTotal()">Agregar producto</button>
+        <br><br>
+        <div id="productos">
+        </div>
+        <p id="totalapagar">Total a Pagar:</p>
+    </div>
+
+    <script>
+
+        var totalapagar = 0;
+        var xCode = document.getElementById("txtcodigo");
+        var id = 0;
+        var subtotal = 0;
+
+        var productosJSON = [{ id: 1, name: "Lapiz", precio: 10, categoria: "Papeleria" }, { id: 2, name: "Cuaderno", precio: 20, categoria: "Papeleria" }, { id: 3, name: "Borrador", precio: 5, categoria: "Papeleria" }];
+        var carritoJSON = [];
+        // var parts = productosJSON; 
+        var spread = [...productosJSON, { id: 4, name: "Pluma", precio: 5, categoria: "Papeleria" }];
+        console.log(spread);
+
+
+
+        function _agregarProducto() {     // Aqui se agregan los productos  
+
+            var xCode = document.getElementById("txtcodigo");
+
+            if (xCode.value == '') {
+                alert("Falta llenar los campos");
+
+                return false;
+            }
+            else {
+                alert("Consultando producto..."); // eliminar
+
+                // jquery / ajax agregar a la bd
+                _getProducto(productosJSON, xCode.value);
+
+            }
+
+        }
+
+
+        function _getProducto(data, productoid) {
+            document.getElementById("productoDisplay").innerHTML = "";
+            document.getElementById("txtprecio").value = "";
+
+            // iterate over each element in the array
+            for (var x = 0; x < data.length; x++) {
+                if (data[x].id == productoid) {
+
+                    document.getElementById("txtprecio").value = data[x].precio;
+                    //  document.getElementById("txtcantidad").value = data[x].precio;
+                    document.getElementById("productoDisplay").innerHTML += data[x].name;
+
+
+
+                }
+            }
+
+            return "Not Found";
+
+        }
+
+
+
+        function _calcularTotal() {
+
+            var objTxtPrecio = document.getElementById("txtprecio");
+            var objTxtCantidad = document.getElementById("txtcantidad");
+            id++;
+
+            var precio = parseFloat(objTxtPrecio.value);
+
+            var cant = parseFloat(objTxtCantidad.value);
+
+            var total = (precio * cant);
+
+
+            console.log("Total a pagar:" + total);
+
+            // alert("Total a pagar:"+total);
+
+            // totalapagar=total+totalapagar;
+            // consol
+            // console.log(document.getElementById("productoDisplay").innerHTML);
+            carritoJSON = [...carritoJSON, { id: id, name: document.getElementById("productoDisplay").innerHTML, precio: precio, cant: cant }];
+            subtotal = 0;
+
+            _agregarElementosCarrito(carritoJSON);
+
+            _calcularSubtotal(carritoJSON);
+
+            // document.getElementById("productos").append(document.getElementById("productoDisplay").innerHTML," | ");
+            // document.getElementById("productos").innerHTML+="<p onclick=_eliminarElemento('"+id+"')>"+document.getElementById("productoDisplay").innerHTML+"</p>";
+
+            // document.getElementById("productos").append('<br>');
+        }
+
+        function _agregarElementosCarrito(carritoJSON) {
+            document.getElementById("productos").innerHTML = " ";
+            // document.getElementById("productos").innerHTML="<p id='totalapagar'>Total a Pagar:</p>";
+            carritoJSON.forEach((articulos) => {
+                document.getElementById("productos").innerHTML += "<p onclick=_eliminarElemento('" + articulos.id + "')>" + articulos.name + "</p>";
+            });
+        }
+
+        function _calcularSubtotal(carritoJSON) {
+            subtotal = 0;
+            carritoJSON.forEach((articulo) => { subtotal += articulo.cant * articulo.precio });
+            document.getElementById("totalapagar").innerHTML = "Total a Pagar:" + subtotal;
+        }
+
+        function _eliminarElemento(id) {
+            // carritoJSON = carritoJSON.filter(function(articulo){ return articulo.id !== id});
+
+            // const words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
+
+            const result = carritoJSON.filter(elemento => elemento.id != id);
+            carritoJSON = result;
+            _agregarElementosCarrito(carritoJSON);
+
+            _calcularSubtotal(carritoJSON);
+
+            console.log(result);
+            // expected output: Array ["exuberant", "destruction", "present"]
+
+
+            alert('Elemento eliminado con el ID ' + id);
+
+            // const index = carritoJSON.forEach((articulo)=>{
+            // 	// console.log(articulo);
+            // 	splice
+            // });
+
+
+
+
+            // console.log(arr);
+            // if (index > -1) {
+            // array.splice(index, 1);
+            // }
+
+            // array = [2, 9]
+            // console.log(array); 
+        }
+
+
+    </script>
+
+</body>
+
+</html>

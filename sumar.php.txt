@@ -1,0 +1,164 @@
+
+<?php header('Content-Type: text/html; charset=UTF-8');?>
+<?php //require_once 'includes/header.php'; ?>
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+ 
+  <script type="text/javascript" src="./jquery-3.5.1.min.js"></script>
+
+<script>
+
+     var xCode = document.getElementById("txtcodigo");
+
+      var productosJSON = [{"id":1, "name":"Lapiz",    "precio":10, "categoria":"Papeleria"},
+                           {"id":2, "name":"Cuaderno", "precio":20, "categoria":"Papeleria"},
+                           {"id":3, "name":"Borrador", "precio":5,  "categoria":"Papeleria"}
+                          ];
+
+    
+
+    function _agregarProducto()
+    {     // Aqui se agregan los productos  
+
+    	    var xCode = document.getElementById("txtcodigo");    	  
+        
+    	    if( xCode.value=='' )
+    	    {
+                alert("Falta llenar los campos");
+
+                return false;
+    	    }
+    	    else
+    	    {
+    	    	alert("Consultando producto..."); // eliminar
+
+                 // jquery / ajax agregar a la bd
+                 _getProducto( productosJSON, xCode.value );
+
+    	    }
+
+
+    	    
+    }
+
+
+    function _getProducto(data, productoid)
+    {
+		document.getElementById("productoName").innerHTML = "";
+		document.getElementById("txtprecio").value ="";
+
+		 // iterate over each element in the array
+         for (var x = 0; x < data.length; x++)
+         {
+			    if(data[x].id == productoid)
+			    {
+			    			    	
+			    	 document.getElementById("txtprecio").value = data[x].precio;
+			    	 document.getElementById("txtcantidad").value = data[x].precio;
+			    	 document.getElementById("productoName").innerHTML += data[x].name;
+
+			    	 
+			    }
+		  }
+		  
+		  return "Not Found";
+		  
+     }
+
+
+
+    function _calcularTotal()
+    {   
+
+            var objTxtPrecio    = document.getElementById("txtprecio");
+            var objTxtCantidad  = document.getElementById("txtcantidad");
+
+
+           
+
+
+            		var precio  = parseFloat( objTxtPrecio.value );
+
+                    var cant    = parseFloat( objTxtCantidad.value  );
+
+			        var total = (  precio * cant );
+
+
+			        console.log("Total a pagar:"+total);
+
+			        alert("Total a pagar:"+total);
+ 
+
+    }
+
+
+</script>
+
+
+
+<div class="row">
+	 
+	 
+		<div class="Content-Type">
+			 
+			 
+		   <label for="codigo">Código del producto: </label>
+		   <input type="text"   name="txtcodigo" required type="text" id="txtcodigo" placeholder="Escribe el código"  > <button onclick="_agregarProducto()">buscar</button>
+		   <br>
+		   <label>Producto: </label>
+		   <div id="productoName"></div>
+		    <br>
+		   <br>
+		   <label>Precio: </label>
+		   <input type="text"   name="txtprecio" id="txtprecio" class="form-control">
+		    <br>
+		   <label>Cantidad: </label>
+		   <input type="text"   name="txtcantidad" id="txtcantidad" class="form-control" placeholder="Cantidad de producto" required>
+		    <br>
+ 
+		   <button onclick="_calcularTotal()">Calcular total</button>
+					
+			 	
+		</div>	
+	 
+ 
+</div> <!-- /row -->
+<script >
+  //<![CDATA[  LINEA MUY IMPORTANTE PARA  EL FUNCIONAMIENTO DE jQuery
+        //no conflict jquery
+jQuery.noConflict();
+
+// INICIO JQUERY
+
+jQuery(document).ready(function(){
+
+  // alert("test"); // eliminar
+
+   // var obtxtpago = document.getElementById("txtpago").value;
+  //  var obtxtpago = jQuery("#txtpago").val();
+    
+
+
+
+
+	// $(document).on("keyup", "#txtpago", function() {
+
+		
+ //        var pago = parseFloat($(this).val());
+ //        var total = parseFloat($("#txttotal").val());
+ //        var cambio = (total - pago);
+
+ //        if (pago >= total) {
+ //            $("txtcambio").val(Math.abs(cambio));
+ //        }
+ //        else (pago < total){
+      //          alert();
+ //            // $("txtcambio").val(0);
+ //        }
+ //    });
+
+  });
+// JQUERY FINAL 
+
+</script>
+ 
