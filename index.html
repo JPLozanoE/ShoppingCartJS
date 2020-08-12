@@ -70,6 +70,7 @@
 
     <div class="hidden" id="totalPago">
         <p id="totalapagar">Total a Pagar:</p>
+        <button onclick="_vaciarCarrito()">Vaciar carrito</button>
     </div>
 
     <script>
@@ -223,6 +224,13 @@
 
             alert('Elemento eliminado con el ID ' + id);
 
+        }
+
+        function _vaciarCarrito(){
+            carritoJSON=[];
+            _updateTabla(carritoJSON);
+            _calcularTotal(carritoJSON);
+            alert("Se ha vaciado el carrito");
         }
 
 
