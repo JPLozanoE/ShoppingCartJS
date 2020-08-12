@@ -88,3 +88,13 @@ td input{
     margin: 0px auto;
     text-align: center;
 }
+
+#totalPago{
+    /* text-align: right; */
+    justify-content: flex-end;
+    /* margin-right: 50px; */
+}
+
+/* button{
+background-color: #FFC800 !important;
+/* background-color: ; */
